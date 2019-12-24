@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8091
   use-forward-headers: true
   compression:
     enabled: false
