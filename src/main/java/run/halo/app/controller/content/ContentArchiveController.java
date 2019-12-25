@@ -2,14 +2,14 @@ package run.halo.app.controller.content;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.PageUtil;
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
 import com.qiniu.util.Json;
 import lombok.extern.slf4j.Slf4j;
+import org.codehaus.jettison.json.JSONString;
 import org.json.JSONObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,16 +117,15 @@ public class ContentArchiveController {
 
         Page<Post> postPage = postService.pageBy(PostStatus.PUBLISHED, pageable);
         Page<PostListVO> postListVos = postService.convertToListVo(postPage);
-        int[] pageRainbow = PageUtil.rainbow(page, postListVos.getTotalPages(), 3);
+        Page pageResult = new PageImpl(postListVos.getContent(),pageable,postPage.getTotalElements());
+        //int[] pageRainbow = PageUtil.rainbow(page, postListVos.getTotalPages(), 3);
 
       /*  model.addAttribute("is_archives", true);
         model.addAttribute("pageRainbow", pageRainbow);
         model.addAttribute("posts", postListVos);*/
-      List<Post> postList=new ArrayList<>();
-      for(Post post:postPage){
-          postList.add(post);
-      }
-     return JSONObject.valueToString(postList);
+        String retStr=JSON.toJSONString(pageResult);
+      System.err.println(retStr);
+      return retStr;
     }
 
 
@@ -210,7 +209,7 @@ public class ContentArchiveController {
      * @return template path: themes/{theme}/post.ftl
      */
     @ResponseBody
-    @GetMapping(value = "findByUrlId/{url}",produces = "application/json; charset=utf-8")
+    @GetMapping(value = "findByUrl/{url}",produces = "application/json; charset=utf-8")
     public String findByUrlId(@PathVariable("url") String url,
                        @RequestParam(value = "preview", required = false, defaultValue = "false") boolean preview,
                        @RequestParam(value = "intimate", required = false, defaultValue = "false") boolean intimate,

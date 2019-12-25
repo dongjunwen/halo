@@ -96,6 +96,7 @@ dependencies {
     implementation "com.vladsch.flexmark:flexmark-html-parser:$flexmarkVersion"
 
     implementation "net.coobird:thumbnailator:$thumbnailatorVersion"
+    implementation "com.alibaba:fastjson:1.2.62"
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
