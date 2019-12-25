@@ -11,7 +11,7 @@ public enum ApiProperties implements PropertyEnum {
     /**
      * api_enabled
      */
-    API_ENABLED("api_enabled", Boolean.class, "false"),
+    API_ENABLED("api_enabled", Boolean.class, "true"),
 
     /**
      * api_access_key

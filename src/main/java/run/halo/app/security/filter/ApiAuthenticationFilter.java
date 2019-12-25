@@ -48,7 +48,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get api_enable from option
-        Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
+        Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, true);
 
         if (!apiEnabled) {
             getFailureHandler().onFailure(request, response, new ForbiddenException("API has been disabled by blogger currently"));
@@ -56,7 +56,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
         }
 
         // Get access key
-        String accessKey = getTokenFromRequest(request);
+        /*String accessKey = getTokenFromRequest(request);
 
         if (StringUtils.isBlank(accessKey)) {
             // If the access key is missing
@@ -77,7 +77,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
             // If the access key is mismatch
             getFailureHandler().onFailure(request, response, new AuthenticationException("API access key is mismatch"));
             return;
-        }
+        }*/
 
         // Do filter
         filterChain.doFilter(request, response);

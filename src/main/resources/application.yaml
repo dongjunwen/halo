@@ -49,3 +49,4 @@ logging:
   level:
     run.halo.app: INFO
   path: ${user.home}/.halo/logs
+
