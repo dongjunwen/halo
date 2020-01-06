@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>起高软件</title>
+    <meta name="description" content="起高软件" />
+    <meta name="keywords" content="起高软件" />
+    <meta name="author" content="起高软件" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css">-->
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <!-- Navigation -->
+    <div id="intro_main">
+        <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="#page-top" title="回到顶部" style="text-transform:capitalize">
+                        <!--<img src="img/logo.png" />-->
+                        <img src="img/company_logo.jpg" style="display:inline;width:52px;border-radius: 100%;overflow: hidden;border:1px solid #F4D03F" /><!--&nbsp;&nbsp;Chulture Inc.-->
+                        <div style="display: inline">
+                            <span>起高软件</span>
+                            <br>
+                            <span>Qi Gao Software</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling 收集导航链接、表单和其他内容以进行切换。 -->
+                <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top">首页</a>
+                        </li>
+                        <li v-for="item in menu_list">
+                            <a :href="item.link_to" class="page-scroll">
+                                {{item.name}}
+                                <i class="fa fa-caret-down"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- 首页 -->
+        <header id="header_page" class="intro">
+            <div class="intro-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <h1>起高 <span class="brand-heading">软件</span></h1>
+                            <p class="intro-text">为大中小型企业提供优质的软硬件一体化解决方案</p>
+                            <a href="#pro_services" class="btn btn-circle page-scroll">
+                                <i class="fa fa-angle-double-down animated"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Product Section 产品介绍-->
+        <div id="pro_services" class="text-center">
+            <div class="container">
+                <div class="section-title center">
+                    <h2>我们的<strong>产品</strong></h2>
+                    <hr>
+                    <p>软件产品销售、软硬件产品定制、企业一体化解决方案咨询等业务</p>
+                </div>
+                <div class="space"></div>
+                <div class="row mt-5 pro_content">
+                    <div class="col-lg-4">
+                        <ul>
+                            <li v-for="(pro,index) in menu_list[0].children_menu" :class="{'category_active': category_index == index}" @click="category_active(index)">
+                                {{pro.name}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-7 ml-auto">
+                        <div class="tab-content">
+                            <div v-for="(pro_img,index0) in menu_list[0].children_menu" class="tab-pane" :class="{'category_img': category_index == index0}">
+                                <img :src="pro_img.active_img" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Article Section 技术文章部分-->
+        <div id="article">
+            <div class="container">
+                <!-- Container -->
+                <div class="section-title text-center center">
+                    <h2>技术<strong>文章</strong></h2>
+                    <hr>
+                </div>
+                <div class="articles">
+                    <div v-if="article_list && article_list.length>0">
+                        <ul class="article_list">
+                            <li v-for="(item,index) in article_list">
+                                <a :href="'articleInfo.html?title='+item.url">
+                                    <span>{{index+1}}.&nbsp;&nbsp;{{item.title}} &nbsp;</span>
+                                    <!--<span class="bor_item"></span>-->
+                                    <span>{{updateTime}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else class="nothing">
+                        暂无更多内容……
+                    </div>
+                    <hr style="margin:0">
+                    <div style="text-align: right">
+                        <ul class="pagination">
+                            <li v-if="article_list && article_list.length>0"><a href="javascript:;" :disabled="pageCurrent == 1" @click="pageCurrent !== 1&& prove()">&laquo;</a></li>
+                            <li v-for="pager in Math.ceil(totalCount/pagesize)">
+                                <a href="javascript:;" @click="page_urrent(pager)" :class="{page_active: pager == pageCurrent}"> {{pager}}</a>
+                            </li>
+                            <li v-if="article_list && article_list.length>0"><a href="javascript:;" :disabled="pageCurrent == Math.ceil(totalCount/pagesize)" @click="pageCurrent !== Math.ceil(totalCount/pagesize)&& next()">&raquo;</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About Section 关于我们 -->
+        <div id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="about-text about-content">
+                        <div class="content">
+                            <div class="group-summary">
+                                <div class="title">
+                                    <p>公司简介</p>
+                                </div>
+                                <div class="summary">
+                                    <p>苏州起高软件有限公司成立于2019年，坐落在人文荟萃的苏州市吴江区，</p>
+                                    <p>本着"服务于民，诚信经营”的理念为大中小型企业提供优质的软硬件一体化解决方案。</p>
+                                    <p>经营业务范围包括：软件产品销售、软硬件产品定制、企业一体化解决方案咨询等业务。
+                                    <p>已经开着的产品详细见产品列表或联系销售人员咨询。</p>
+                                    <p>公司愿景：正常持续运营101年,见证时光百年变化史。</p>
+                                    <p>公司使命：充分保障合作客户的利益最大化，保证公司员工有饭吃、有衣穿、有房住、有知识、有思想、有素养，为美化地球村做贡献。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Section 联系我们-->
+        <div id="contact" class="text-center">
+            <div class="container">
+                <div class="section-title center">
+                    <h2><strong>联系</strong> 我们</h2>
+                    <hr>
+                    <p>为您提供在线服务，远程服务，邮件，电话等多种支持方式。请从下列中联系方式和我们取得联系。</p>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-4">
+                        <i class="fa fa-map-marker fa-2x"></i>
+                        <p>
+                            中国苏州吴江经济技术开发区<br/>
+                            江陵东路8号华东国际商业城3号地块6号楼226/326
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fa fa-link fa-2x"></i>
+                        <p>http://www.sz-qigao.com</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fa fa-phone fa-2x"></i>
+                        <p> (+86) 18217004632</p>
+                    </div>
+                    <hr>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <nav id="footer">
+            <div class="container">
+                <div class="pull-left wx_code">
+                    <!--<p>Copyright &copy;<span id="yeartime"></span> Chulture All Rights Reserved. </p>-->
+                    <img src="img/wx_code.jpg" alt="">
+                </div>
+                <div class="pull-right fnav">
+                    <p>Copyright &copy;<span id="yeartime"></span> Chulture All Rights Reserved. </p>
+                    <p><a href="http://www.miitbeian.gov.cn/">沪ICP备16047181号</a></p>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <script>
+        new Vue({
+            el: '#intro_main',
+            data () {
+                return {
+                    category_index: 0,
+                    menu_list:[
+                        {
+                            id:0,
+                            name:"产品",
+                            link_to:"#pro_services",
+                            children_menu:[
+                                {
+                                    id:0,
+                                    name:"医药进销存",
+                                    active_img:"img/Materia_enters_sells.png"
+                                 },
+                                {
+                                    id:1,
+                                    name:"电商软件",
+                                    active_img:"img/prototype.png"
+                                },
+                                {
+                                    id:2,
+                                    name:"物联网APP",
+                                    active_img:"img/Rent_house.png"
+                                }
+                            ]
+                        },
+                        {
+                            id:1,
+                            name:"技术文章",
+                            link_to:"#article",
+                            children_menu:[]
+                        },
+                        {
+                            id:2,
+                            name:"关于我们",
+                            link_to:"#about",
+                            children_menu:[]
+                        },
+                        {
+                            id:3,
+                            name:"联系我们",
+                            link_to:"#contact",
+                            children_menu:[]
+                        }
+                    ],
+                    article_list:{},
+                    updateTime:'',
+                    totalCount: 0,//总数量
+                    pageCount: 0,//总页数
+                    pagesize: 10,//页面数量
+                    pageCurrent: 1,//当前页面
+                }
+            },
+            created() {
+                // let top = document.documentElement.scrollTop;
+                this.win_height = window.screen.height;
+                console.log("该屏幕高" + this.win_height+"px");
+            },
+            mounted() {
+                this.getActicles();
+            },
+
+            methods: {
+                category_active(index){
+                    this.category_index = '';
+                    this.category_index = index;
+                },
+                getActicles(){
+                    axios.get("http://106.15.237.241:8091/api/content/archives/findPage/"+this.pageCurrent)
+                        .then(res => {
+                            // console.log(res)
+                            if (res.status == 200) {
+                                this.article_list = res.data.content
+                                // console.log(this.article_list)
+                                // this.totalCount = 45
+                                this.totalCount = res.data.totalElements
+                                this.pageCount = res.data.totalPages
+                                this.pagesize = res.data.size
+
+                                for(let i=0;i<=res.data.content.length;i++){
+                                    if(res.data.content[i].updateTime){
+                                        console.log(res.data.content[i].updateTime);
+                                        var d = new Date(res.data.content[i].updateTime),
+                                            year = d.getFullYear(),
+                                            month = '-' + (d.getMonth() + 1),
+                                            day = '-' + d.getDate(),
+                                            h = '  ' + d.getHours(),
+                                            m = ':' + d.getMinutes(),
+                                            s = ':' + d.getSeconds();
+                                        this.updateTime = year + month + day + h + m + s
+                                    }
+                                }
+
+                                // console.log(this.totalCount,this.pageCount,this.pagesize)
+                            }
+                        }).catch(error => {
+                        console.log(error)
+                    })
+                },
+                page_urrent(page){
+                    this.pageCurrent = ''
+                    this.pageCurrent = page
+                        axios.get("http://106.15.237.241:8091/api/content/archives/findPage/"+this.pageCurrent)
+                        .then(res => {
+                            // console.log(res)
+                            if (res.status == 200) {
+                                this.article_list = res.data.content
+                            }
+                        }).catch(error => {
+                        console.log(error)
+                    })
+                },
+                prove(){
+                    this.pageCurrent = this.pageCurrent-1
+                    axios.get("http://106.15.237.241:8091/api/content/archives/findPage/"+this.pageCurrent)
+                        .then(res => {
+                            // console.log(res)
+                            if (res.status == 200) {
+                                this.article_list = res.data.content
+                            }
+                        }).catch(error => {
+                        console.log(error)
+                    })
+                },
+                next(){
+                    this.pageCurrent = this.pageCurrent+1
+                    axios.get("http://106.15.237.241:8091/api/content/archives/findPage/"+this.pageCurrent)
+                        .then(res => {
+                            // console.log(res)
+                            if (res.status == 200) {
+                                this.article_list = res.data.content
+                            }
+                        }).catch(error => {
+                        console.log(error)
+                    })
+                },
+
+                GetUrlRequest() {
+                    var url = location.search; //获取url中"?"符后的字串
+                    var theRequestUrl = {};
+                    if (url.indexOf("?") != -1) {    //判断是否有参数
+                        var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+                        strs = str.split("&");
+                        console.log(strs);
+                        for(var i = 0; i < strs.length; i ++) {
+                            theRequestUrl[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                        }
+                    }
+                    return theRequestUrl;
+                }
+            }
+        })
+        // vue.showPage(vue.pageCurrent, null, true);
+    </script>
+    <!-- Javascripts-->
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/SmoothScroll.js"></script>
+</body>
+</html>

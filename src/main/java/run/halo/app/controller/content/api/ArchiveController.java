@@ -143,7 +143,7 @@ public class ArchiveController {
 
 
         jsonObject.put("is_post", true);
-        jsonObject.put("post", postService.convertToDetailVo(post));
+        jsonObject.put("articles", JSONObject.valueToString(postService.convertToDetailVo(post)));
         jsonObject.put("categories", categories);
         jsonObject.put("tags", tags);
         jsonObject.put("comments", comments);
@@ -153,6 +153,6 @@ public class ArchiveController {
             cacheStore.putAny("preview-post-token-" + post.getId(), token, 10, TimeUnit.MINUTES);
         }
 
-        return jsonObject.toString();
+        return JSONObject.valueToString(postService.convertToDetailVo(post).getFormatContent());
     }
 }

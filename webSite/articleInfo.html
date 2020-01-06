@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>起高软件</title>
+    <meta name="description" content="起高软件" />
+    <meta name="keywords" content="起高软件" />
+    <meta name="author" content="起高软件" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+
+ <!--   <link href="css/owl.carousel.css" rel="stylesheet" media="screen">
+    <link href="css/owl.theme.css" rel="stylesheet" media="screen">-->
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+<!--    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css">-->
+
+   <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<!-- Navigation -->
+<div id="intro_main">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top" title="回到顶部" style="text-transform:capitalize">
+                    <!--<img src="img/logo.png" />-->
+                    <img src="img/company_logo.jpg" style="display:inline;width:52px;border-radius: 100%;overflow: hidden;border:1px solid #F4D03F" /><!--&nbsp;&nbsp;Chulture Inc.-->
+                    <div style="display: inline">
+                        <span>起高软件</span>
+                        <br>
+                        <span>Qi Gao Software</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling 收集导航链接、表单和其他内容以进行切换。 -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top">首页</a>
+                    </li>
+                    <li v-for="item in menu_list">
+                        <a :href="'index.html'+item.link_to" class="page-scroll">
+                            {{item.name}}
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <header class="article_intro">
+
+    </header>
+    <!-- Article Section 技术文章部分-->
+    <div id="article">
+        <div class="container">
+            <!-- Container -->
+            <div class="section-title text-center center">
+                <h2>技术<strong>文章</strong></h2>
+                <hr>
+            </div>
+            <div class="articles" id="articles">
+              <!--  <p>
+                    大白话说jvm
+
+                    luiz  苏州起高软件  1周前
+                    用过java的人都知道，java程序运行在jvm（java虚拟机）之上，包括你发布的jar包或者war包，java -jar xxx.jar就能运行java程序。通过类加载器会把编译好的class文件加载到jvm空间中,加载过程里最主要的是双亲委派机制。程序启动之后开始接受外部请求，根据业务的不同会创建不同的类对象，当业务逻辑处理完毕类对象会在一段时间内消失，这个就是jvm控制的。
+                    jvm怎么清理无效对象的？如果无效对象没有及时清理，长时间堆积会发生什么情况？
+
+                    先大致有个印象,你把jvm看成一个抽屉，抽屉里面有通过纸板分成了很多的小格子，每个格子做不同的用途，最主要的是堆空间，占的地方比较大。接着刚才的问题，比如说我们有一个对象被创建了，首先这个对象里的各个部分会存在不同的地方，最占内存的是堆空间这个地方，jvm有保洁人员（守护线程）去检查各个格子是不是满了，如果快满了需要清理无效对象，先暂时这么简单理解。如果访问量比较少，保洁人员清理的比较及时，那么系统运转还是比较好的。就是有人往抽屉里存东西，又有保洁从抽屉里清理东西，这样就不会有问题。问题是，如果存东西的速度大于了清理垃圾的速度，那么就会出现垃圾清理不出去，抽屉里放不下了。放不下的结果就是服务不可用了，明显的表现就是系统卡住了、报错了、内存溢出了等情况。
+                    现在我们知道如果要保证服务健康稳定运行，一定要处理好系统访问流量与垃圾清理之间的关系。大的方向就是从入和出两个方向考虑jvm调优问题，比如说假设马上要进行新产品发布，有一大波用户要过来使用系统进行抢购，那么就要做好准备。
+                    不管是不是分布式，每个单机的性能要提高，就要保证单机的服务是可用的。具体有以下几个情况可以操作：
+                    1.检查机器内存，必要时可以提高jvm内存大小（增加抽屉空间，可以多存放东西）
+                    2.合理分配jvm内存空间，必要的话要增加堆空间大小
+                    3.优化垃圾清理算法（jdk1.8一般是 cms+parnew,也可以用最新的G1算法）
+
+                    当然不管再怎么优化，单机性能都有有一定瓶颈(比如操作系统IO方面限制),那么系统就需要采用分布式架构，保证服务能处理更多请求。系统里面可能还有消息队列、数据库、rpc框架等中间件等这些也都是保证QPS的重要部分，我们这里只考虑java服务单机的性能稳定性。
+                    大的思路有了之后，我们看一下细节，这里提个问题，保洁到底是怎么清理垃圾的？这个问题跟怎么把大象装进冰箱差不多是一个问题。这里可以先思考一下，就比如说你在家里怎么打扫房间的？拿着扫帚从头开始扫，扫完整个房间，整理成了一个小堆然后倒入垃圾桶。还是扫一个垃圾倒一次垃圾桶？
+                    回答这个问题之前，先看一下堆空间的分布，又分成了几个小格子：
+
+                    其中名词解释如下：
+
+
+                    假设对象是一个人，那么这个人一出生先进入伊甸园，如果这个人一直有用途（对象一直存在，没有消失）则每一年增加一岁（躲过一次GC）,生活的地方会从伊甸园(Eden)转移到存活区(s0/s1区)，增加到一定年龄（默认15岁）就直接进入养老院（老年代）如果对象没用了，就直接死亡了（需要被清理掉）。如果存活的人太多，超出了地球容纳的范围，就会发生拥挤踩踏事件（OOM）。
+                    在jvm中垃圾回收器也经过一定的历史发展，一开始是单线程串行，后来多线程并行，但是不管怎样在清理的时候都需要stop the world(stw)。这也是java语言被诟病的地方，如果GC(垃圾回收)的次数越多，则系统的性能越低。所以jvm性能优化的一个指标也有就是减少gc次数和时长。
+                    下图是目前所有的垃圾回收器：
+
+                    垃圾回收器的具体过程和区别这里就不过多介绍，网上有很多教程，这个文章的主要目的是了解一下jvm的结构和运行原理，堆jvm有个简单大致的了解即可。
+                    附录：
+                    jvm参数参考模板 可以打印堆栈详细信息
+                    ```text
+                    -Xms4096M -Xmx4096M -Xmn3072M -Xss1M
+                    -XX:MetaspaceSize=256M -XX:MaxMetaspaceSize=256M
+                    -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+                    -XX:CMSInitiatingOccupancyFraction=92 -XX:+UseCMSCompactAtFullCollection
+                    -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSParallelInitialMarkEnabled
+                    -XX:+CMSScavengeBeforeRemark
+                    -XX:+DisableExplicitGC -XX:+PrintGCDetails -Xloggc:gc.log
+                    -XX:+HeapDumpOnOutOfMemoryError
+                    -XX:HeapDumpPath=/usr/local/app/oom
+                </p>-->
+            </div>
+        </div>
+    </div>
+
+    <nav id="footer">
+        <div class="container">
+            <div class="pull-left wx_code">
+                <!--<p>Copyright &copy;<span id="yeartime"></span> Chulture All Rights Reserved. </p>-->
+                <img src="img/wx_code.jpg" alt="">
+            </div>
+            <div class="pull-right fnav">
+                <p>Copyright &copy;<span id="yeartime"></span> Chulture All Rights Reserved. </p>
+                <p><a href="http://www.miitbeian.gov.cn/">沪ICP备16047181号</a></p>
+            </div>
+        </div>
+    </nav>
+</div>
+<script>
+    new Vue({
+        el: '#intro_main',
+        data () {
+            return {
+                category_index: 0,
+                menu_list:[
+                    {
+                        id:0,
+                        name:"首页",
+                        link_to:"#header_page",
+                        children_menu:[]
+                    },
+                    {
+                        id:1,
+                        name:"产品",
+                        link_to:"#pro_services",
+                        children_menu:[
+                            {
+                                id:0,
+                                name:"医药进销存",
+                                active_img:"img/Materia_enters_sells.png"
+                            },
+                            {
+                                id:1,
+                                name:"电商软件",
+                                active_img:"img/prototype.png"
+                            },
+                            {
+                                id:2,
+                                name:"物联网APP",
+                                active_img:"img/Rent_house.png"
+                            }
+                        ]
+                    },
+                    {
+                        id:2,
+                        name:"技术文章",
+                        link_to:"#article",
+                        children_menu:[]
+                    },
+                    {
+                        id:3,
+                        name:"关于我们",
+                        link_to:"#about",
+                        children_menu:[]
+                    },
+                    {
+                        id:4,
+                        name:"联系我们",
+                        link_to:"#contact",
+                        children_menu:[]
+                    }
+                ],
+                article_data:{},
+                url:this.GetUrlRequest().title
+            }
+        },
+        created() {
+
+        },
+        mounted() {
+            this.getActicleInfo();
+        },
+
+        methods: {
+            category_active(index){
+                this.category_index = '';
+                this.category_index = index;
+            },
+            getActicleInfo(){
+                axios.get("http://106.15.237.241:8091/api/content/archives/findByUrl/"+this.url)
+                    .then(res => {
+                        this.article_data = res.data;
+                        $("#articles").append(this.article_data);
+                        console.log(this.article_data)
+                    }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+            GetUrlRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequestUrl = {};
+                if (url.indexOf("?") != -1) {    //判断是否有参数
+                    var str = url.substr(1); //从第一个字符开始 因为第0个是?号 获取所有除问号的所有符串
+                    strs = str.split("&");
+                    console.log(strs);
+                    for(var i = 0; i < strs.length; i ++) {
+                        theRequestUrl[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                    }
+                }
+                return theRequestUrl;
+            }
+        }
+    })
+</script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="js/jquery.min.1.11.1.js"></script>-->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/SmoothScroll.js"></script>
+<!--<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/jquery.isotope.js"></script>
+<script type="text/javascript" src="js/jquery.counterup.js"></script>
+<script type="text/javascript" src="js/waypoints.js"></script>
+<script type="text/javascript" src="js/jqBootstrapValidation.js"></script>
+<script type="text/javascript" src="js/contact_me.js"></script>
+<script src="js/owl.carousel.js"></script>-->
+
+<!-- Javascripts-->
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
